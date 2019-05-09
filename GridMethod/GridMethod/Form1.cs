@@ -19,18 +19,18 @@ namespace GridMethod
             InitializeComponent();
             setChart();
             gridMethod = new ImplicitGridMethod(
-                2,
+                4,
                 delegate (double x, double t) { return 0; },
                 delegate (double t) { return 0; },
                 delegate (double t) { return 0; },
-                100*Math.PI,
+                Math.PI,
                 delegate (double x) {
                     //return -(x) * (x) + 1;
-                    return Math.Sin(Math.Pow(x,4) + Math.Sin(x*x));
+                    return Math.Sin(x);
                 },
-                0.1,
-                500,
-                200
+                0.001,
+                100,
+                10
                 );
             gridMethod.calculate();
             timer1.Start();
@@ -64,7 +64,7 @@ namespace GridMethod
             }
         }
 
-        public IDiffusionNumMethod gridMethod;
+        public IDiffusionGrid gridMethod;
         public int timeLayer = 0;
     }
 }

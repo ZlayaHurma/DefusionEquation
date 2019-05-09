@@ -59,10 +59,11 @@
     </Compile>
     <Compile Include="ImplicitGridMethod.cs" />
     <Compile Include="ExplicitGridMethod.cs" />
-    <Compile Include="IDiffusionNumMethod.cs" />
+    <Compile Include="IDiffusionGrid.cs" />
     <Compile Include="PointD.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Solution.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

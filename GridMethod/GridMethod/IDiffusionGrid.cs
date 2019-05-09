@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GridMethod
 {
-    public interface IDiffusionNumMethod
+    public interface IDiffusionGrid
     {
         void calculate();
         int getTimeLayersNum();

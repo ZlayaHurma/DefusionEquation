@@ -11,7 +11,7 @@ using System.Windows.Forms.DataVisualization.Charting;
 
 namespace GridMethod
 {
-    public class ExplicitGridMethod : IDiffusionNumMethod
+    public class ExplicitGridMethod : IDiffusionGrid
     {
         public delegate double Func2(double x, double t);
 
@@ -40,11 +40,11 @@ namespace GridMethod
             this.dx = (l1 - l0) / xn;
         }
 
-        int IDiffusionNumMethod.getTimeLayersNum() {
+        int IDiffusionGrid.getTimeLayersNum() {
             return tn;
         }
 
-        void IDiffusionNumMethod.calculate() {
+        void IDiffusionGrid.calculate() {
             double[,] grid = new double[xn,tn];
 
             //fill start values by start conditions
@@ -79,7 +79,7 @@ namespace GridMethod
             return 0 + i * dx;
         }
 
-        List<PointD> IDiffusionNumMethod.getTimeLayer(int j) {
+        List<PointD> IDiffusionGrid.getTimeLayer(int j) {
             List<PointD> layer = new List<PointD>();
             for (int i=0; i < xn; i++) 
                 layer.Add(new PointD(getOffset(i), grid[i, j]));

@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Extreme.Mathematics.Calculus;
 using Extreme.Mathematics;
+using Extreme.Mathematics.Algorithms;
+
 
 namespace GridMethod
 {
-    class ImplicitGridMethod : IDiffusionGrid
+    class Solution : IDiffusionGrid
     {
         public delegate double Func2(double x, double t);
 
-        public ImplicitGridMethod(
+        public Solution(
             double a,
             Func2 f,
             Func<double, double> f0,
@@ -54,31 +57,10 @@ namespace GridMethod
                 grid[xn - 1, j] = f1(getTime(j));
             }
 
-            //fill matrix LES
-            double A = -(a * a * dt) / (dx * dx);
-            double B = (1 + (2 * a * a * dt) / (dx * dx));
-            double C = A;
-
-            var m = Matrix.Create(xn - 2, xn - 2, new double[(xn-2)*(xn-2)], MatrixElementOrder.RowMajor);
-            for (int i = 0; i < xn-2; i++) {
-                m[i, i] = B;
-                if (i + 1 <= xn - 3) {
-                    m[i + 1, i] = C;
-                    m[i, i + 1] = A;
-                }                   
-            }
-            
-            for (int j = 0; j < tn-1; j++) {
-                //m[0, 0]       = f0(getTime(j + 1));
-                //m[xn-3, xn-3] = f1(getTime(j + 1));
-                double[] v = new double[xn - 2];
-                for (int i = 0; i < xn - 2; i++)
-                    v[i] = grid[i + 1, j] + (-A) * f(getOffset(i+1), getTime(j));
-                var vec = Vector.Create(v);
-                var solve = m.Solve(vec, false);
+            for (int j = 1; j < tn; j++)
                 for (int i = 1; i < xn - 1; i++)
-                    grid[i, j + 1] = solve[i-1];
-            }
+                    grid[i, j] = getSolution(getOffset(i), getTime(j));
+
             this.grid = grid;
         }
 
@@ -100,6 +82,24 @@ namespace GridMethod
             return layer;
         }
 
+        double getSolution(double x, double t) {
+            double sum = 0;
+            int tol = 100;
+            for (int n = 1; n < tol; n++) {
+                Func<double, double> integrand = delegate (double csi) {
+                    return u0(csi) * Math.Sin((Math.PI * n) / l1 * csi);
+                };
+                sum += (2 / l1) * getIntegral(integrand, 0, l1) * Math.Sin((Math.PI * n) / l1 * x) * Math.Exp(-a*a*Math.Pow((Math.PI * n) / l1, 2) * t);
+            }
+            return sum;
+        }
+
+        double getIntegral(Func<double, double> f, double a, double b) {
+            NonAdaptiveGaussKronrodIntegrator simpson = new NonAdaptiveGaussKronrodIntegrator();
+            simpson.ConvergenceCriterion = ConvergenceCriterion.WithinRelativeTolerance;
+            return simpson.Integrate(f, a, b);
+        }
+
         private double a;
         private Func2 f;
         private Func<double, double> f0;
@@ -115,3 +115,4 @@ namespace GridMethod
         public double[,] grid;
     }
 }
+
