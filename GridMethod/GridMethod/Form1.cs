@@ -30,7 +30,7 @@ namespace GridMethod
                 },
                 0.1,
                 500,
-                100
+                200
                 );
             gridMethod.calculate();
             timer1.Start();
