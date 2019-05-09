@@ -18,19 +18,19 @@ namespace GridMethod
         {
             InitializeComponent();
             setChart();
-            gridMethod = new ExplicitGridMethod(
-                4,
+            gridMethod = new ImplicitGridMethod(
+                2,
                 delegate (double x, double t) { return 0; },
                 delegate (double t) { return 0; },
                 delegate (double t) { return 0; },
                 100*Math.PI,
                 delegate (double x) {
                     //return -(x) * (x) + 1;
-                    return Math.Sin(Math.Pow(x,4));
+                    return Math.Sin(Math.Pow(x,4) + Math.Sin(x*x));
                 },
-                1,
+                0.1,
                 500,
-                10
+                100
                 );
             gridMethod.calculate();
             timer1.Start();
