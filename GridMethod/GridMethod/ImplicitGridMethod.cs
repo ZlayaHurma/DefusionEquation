@@ -27,7 +27,7 @@ namespace GridMethod
             this.f = f;
             this.f0 = f0;
             this.f1 = f1;
-            this.l0 = 0d;
+            l0 = 0d;
             this.l1 = l1;
             this.u0 = u0;
             this.dt = dt;
@@ -55,8 +55,8 @@ namespace GridMethod
             }
 
             //fill matrix LES
-            double A = -(a * a * dt) / dx * dx;
-            double B = (1 + (2 * a * a * dt) / dx * dx);
+            double A = -(a * a * dt) / (dx * dx);
+            double B = (1 + (2 * a * a * dt) / (dx * dx));
             double C = A;
 
             var m = Matrix.Create(xn - 2, xn - 2, new double[(xn-2)*(xn-2)], MatrixElementOrder.RowMajor);
@@ -73,7 +73,7 @@ namespace GridMethod
                 //m[xn-3, xn-3] = f1(getTime(j + 1));
                 double[] v = new double[xn - 2];
                 for (int i = 0; i < xn - 2; i++)
-                    v[i] = grid[i + 1, j] + (a * a * dt) / (dx * dx) * f(getOffset(i+1), getTime(j));
+                    v[i] = grid[i + 1, j] + (-A) * f(getOffset(i+1), getTime(j));
                 var vec = Vector.Create(v);
                 var solve = m.Solve(vec, false);
                 for (int i = 1; i < xn - 1; i++)
@@ -89,7 +89,7 @@ namespace GridMethod
 
         private double getOffset(int i)
         {
-            return l0 + i * dx;
+            return 0 + i * dx;
         }
 
         List<PointD> IDiffusionNumMethod.getTimeLayer(int j)

@@ -49,16 +49,24 @@ namespace GridMethod
 
             //fill start values by start conditions
             for (int i = 0; i < xn; i++)
-                grid[i,0] = u0(getOffset(i));
+                grid[i, 0] = u0(getOffset(i));
             for (int j = 0; j < tn; j++)
             {
-                grid[0,j] = f0(getTime(j));
-                grid[xn - 1,j] = f1(getTime(j));
+                grid[0, j] = f0(getTime(j));
+                grid[xn-1, j] = f1(getTime(j));
             }
 
-            for (int i = 1; i < xn - 1; i++)
-                for (int j = 1; j < tn; j++)
-                    grid[i,j] = grid[i,j - 1] + (a * a * dt) * (grid[i,j - 1] - 2 * grid[i,j - 1] + grid[i + 1,j - 1] + f(getOffset(i), getTime(j - 1))) / dx * dx;
+            for (int j = 1; j < tn; j++)
+            {
+                for (int i = 1; i < xn - 1; i++)
+                {
+                    double u_i_j = grid[i, j - 1] + ((a * a * dt) / (dx * dx)) * (grid[i - 1, j - 1] - (2 * grid[i, j - 1]) + grid[i + 1, j - 1] /*+ f(getOffset(i), getTime(j - 1))*/);
+                    grid[i, j] = u_i_j;
+                    if (Double.IsNaN(u_i_j) || Double.IsNegativeInfinity(u_i_j) || Double.IsPositiveInfinity(u_i_j) || u_i_j > 20)
+                        grid[i, j] = 0;
+                }
+            }
+
             this.grid = grid;
         }
 
@@ -68,7 +76,7 @@ namespace GridMethod
 
         private double getOffset(int i)
         {
-            return l0 + i * dx;
+            return 0 + i * dx;
         }
 
         List<PointD> IDiffusionNumMethod.getTimeLayer(int j) {
