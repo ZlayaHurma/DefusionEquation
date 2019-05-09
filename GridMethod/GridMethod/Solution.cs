@@ -12,8 +12,6 @@ namespace GridMethod
 {
     class Solution : IDiffusionGrid
     {
-        public delegate double Func2(double x, double t);
-
         public Solution(
             double a,
             Func2 f,
@@ -58,7 +56,7 @@ namespace GridMethod
             }
 
             for (int j = 1; j < tn; j++)
-                for (int i = 1; i < xn - 1; i++)
+                for (int i = 1; i < xn-1; i++)
                     grid[i, j] = getSolution(getOffset(i), getTime(j));
 
             this.grid = grid;

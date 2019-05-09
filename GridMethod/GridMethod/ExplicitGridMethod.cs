@@ -13,8 +13,6 @@ namespace GridMethod
 {
     public class ExplicitGridMethod : IDiffusionGrid
     {
-        public delegate double Func2(double x, double t);
-
         public ExplicitGridMethod(
             double a,
             Func2 f, 

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace GridMethod
 {
+    public delegate double Func2(double x, double t);
+
     public interface IDiffusionGrid
     {
         void calculate();

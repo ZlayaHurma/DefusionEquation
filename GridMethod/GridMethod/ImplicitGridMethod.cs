@@ -9,8 +9,6 @@ namespace GridMethod
 {
     class ImplicitGridMethod : IDiffusionGrid
     {
-        public delegate double Func2(double x, double t);
-
         public ImplicitGridMethod(
             double a,
             Func2 f,

@@ -8,31 +8,68 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
-
+using static GridMethod.ExplicitGridMethod;
 
 namespace GridMethod
 {
     public partial class Form1 : Form
     {
+
         public Form1()
         {
             InitializeComponent();
             setChart();
-            gridMethod = new ImplicitGridMethod(
-                4,
-                delegate (double x, double t) { return 0; },
-                delegate (double t) { return 0; },
-                delegate (double t) { return 0; },
-                Math.PI,
-                delegate (double x) {
-                    //return -(x) * (x) + 1;
-                    return Math.Sin(x);
-                },
-                0.001,
-                100,
-                10
+            double a = 6;
+            Func2 f = delegate (double x, double y) { return 0; };
+            Func<double, double> f0 = delegate (double t) { return 0; };
+            Func<double, double> f1 = delegate (double t) { return 0; };
+            double l = 5;
+            Func<double, double> u0 = delegate (double x)
+            {
+                //return -(x) * (x) + 1;
+                return Math.Sin(Math.Pow(x, 2));
+                //return Math.Sin(x)/2;
+            };
+            double dt = 0.0001;
+            int tn = 200;
+            int xn = 50;
+
+            implicitMethod = new ImplicitGridMethod(
+                a,
+                f,
+                f0,
+                f1,
+                l,
+                u0,
+                dt,
+                tn,
+                xn
                 );
-            gridMethod.calculate();
+            explicitMethod = new ExplicitGridMethod(
+                a,
+                f,
+                f0,
+                f1,
+                l,
+                u0,
+                dt,
+                tn,
+                xn
+                );
+            solution = new Solution(
+                a,
+                f,
+                f0,
+                f1,
+                l,
+                u0,
+                dt,
+                tn,
+                xn
+                );
+            implicitMethod.calculate();
+            explicitMethod.calculate();
+            solution.calculate();
             timer1.Start();
         }
 
@@ -50,21 +87,28 @@ namespace GridMethod
             series.Color = color;
             for (int i = 0; i < p.Count; i++)
                 series.Points.AddXY(p[i].X, p[i].Y);
-            
+
             chart.Series.Clear();
             chart.Series.Add(series);
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (timeLayer < gridMethod.getTimeLayersNum())
+            if (timeLayer < implicitMethod.getTimeLayersNum())
             {
-                draw(gridMethod.getTimeLayer(timeLayer), timeLayer.ToString(), Color.Black);
+                List<PointD> points = new List<PointD>();
+                points.AddRange(implicitMethod.getTimeLayer(timeLayer));
+                points.AddRange(explicitMethod.getTimeLayer(timeLayer));
+                points.AddRange(solution.getTimeLayer(timeLayer));
+
+                draw(points, timeLayer.ToString(), Color.Black);
                 timeLayer++;
             }
         }
 
-        public IDiffusionGrid gridMethod;
+        public IDiffusionGrid implicitMethod;
+        public IDiffusionGrid explicitMethod;
+        public IDiffusionGrid solution;
         public int timeLayer = 0;
     }
 }
