@@ -85,7 +85,7 @@ namespace GridMethod
 
         double getSolution(double x, double t) {
             double sum = 0;
-            int tolerance = 10000;
+            int tolerance = 100;
             for (int n = 1; n < tolerance; n++) {
                 Func<double, double> integrand = delegate (double csi) {
                     return u0(csi) * Math.Sin((Math.PI * n) / l1 * csi);
