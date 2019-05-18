@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Extreme.Mathematics;
+using Bytescout.Spreadsheet;
+using System.Diagnostics;
+using System.IO;
 
 namespace GridMethod
 {
@@ -80,6 +83,33 @@ namespace GridMethod
             this.grid = grid;
         }
 
+        void IDiffusionGrid.writeResult(Spreadsheet document)
+        {
+            // add new worksheet
+            Worksheet Sheet = document.Workbook.Worksheets.Add("ImplicitGridMethodResult");
+
+            for (int i = 0; i < xn; i++) {
+                Sheet[0, i+1].Value = getOffset(i);
+            }
+
+            for (int j = 0; j < tn; j++)
+            {
+                Sheet[j+1, 0].Value = getTime(j);
+            }
+
+            for (int j = 0; j < tn; j++)
+                for (int i = 0; i < xn; i++)
+                    Sheet[j+1, i+1].Value = grid[i, j];
+        }
+
+        List<PointD> IDiffusionGrid.getTimeLayer(int j)
+        {
+            List<PointD> layer = new List<PointD>();
+            for (int i = 0; i < xn; i++)
+                layer.Add(new PointD(getOffset(i), grid[i, j]));
+            return layer;
+        }
+
         private double getTime(int j)
         {
             return 0 + j * dt;
@@ -90,13 +120,7 @@ namespace GridMethod
             return 0 + i * dx;
         }
 
-        List<PointD> IDiffusionGrid.getTimeLayer(int j)
-        {
-            List<PointD> layer = new List<PointD>();
-            for (int i = 0; i < xn; i++)
-                layer.Add(new PointD(getOffset(i), grid[i, j]));
-            return layer;
-        }
+       
 
         private double a;
         private Func2 f;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Bytescout.Spreadsheet;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -8,6 +9,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using System.Diagnostics;
+using System.IO;
+
 
 namespace GridMethod
 {
@@ -60,12 +64,30 @@ namespace GridMethod
                 {
                     double u_i_j = grid[i, j - 1] + ((a * a * dt) / (dx * dx)) * (grid[i - 1, j - 1] - (2 * grid[i, j - 1]) + grid[i + 1, j - 1] + f(getOffset(i), getTime(j - 1)));
                     grid[i, j] = u_i_j;
-                    if (Double.IsNaN(u_i_j) || Double.IsNegativeInfinity(u_i_j) || Double.IsPositiveInfinity(u_i_j) || u_i_j > 20)
-                        grid[i, j] = 0;
                 }
             }
 
             this.grid = grid;
+        }
+
+        void IDiffusionGrid.writeResult(Spreadsheet document)
+        {
+            // add new worksheet
+            Worksheet Sheet = document.Workbook.Worksheets.Add("ExplicitGridMethodResult");
+
+            for (int i = 0; i < xn; i++)
+            {
+                Sheet[0, i + 1].Value = getOffset(i);
+            }
+
+            for (int j = 0; j < tn; j++)
+            {
+                Sheet[j + 1, 0].Value = getTime(j);
+            }
+
+            for (int j = 0; j < tn; j++)
+                for (int i = 0; i < xn; i++)
+                    Sheet[j + 1, i + 1].Value = grid[i, j];
         }
 
         private double getTime(int j) {

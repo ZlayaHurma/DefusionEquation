@@ -33,6 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Bytescout.Spreadsheet, Version=3.3.1.1762, Culture=neutral, PublicKeyToken=f7dd1bd9d40a50eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\Bytescout.Spreadsheet.3.3.1.1762\lib\net40\Bytescout.Spreadsheet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Extreme.Numerics, Version=7.0.6.0, Culture=neutral, PublicKeyToken=9e513770f58567b2, processorArchitecture=MSIL">
       <HintPath>..\packages\Extreme.Numerics.7.0.6\lib\net40\Extreme.Numerics.dll</HintPath>
       <Private>True</Private>

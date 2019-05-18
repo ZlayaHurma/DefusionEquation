@@ -8,7 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
-using static GridMethod.ExplicitGridMethod;
+using Bytescout.Spreadsheet;
+using System.Diagnostics;
+using System.IO;
 
 namespace GridMethod
 {
@@ -70,6 +72,16 @@ namespace GridMethod
             implicitMethod.calculate();
             explicitMethod.calculate();
             solution.calculate();
+
+            Spreadsheet doc = new Spreadsheet();
+            implicitMethod.writeResult(doc);
+            explicitMethod.writeResult(doc);
+            solution.writeResult(doc);
+            doc.SaveAs("Output.xls");
+            doc.Close();
+
+            Process.Start("Output.xls");
+
             timer1.Start();
         }
 
@@ -81,27 +93,27 @@ namespace GridMethod
 
         public void draw(List<PointD> p, string name, Color color)
         {
-            Series series = new Series(name);
-            series.ChartType = SeriesChartType.Line;
-            series.ChartArea = "ChartArea1";
-            series.Color = color;
+            Series series = chart.Series.FindByName(name);
+            if (series == null)
+            {
+                series = new Series(name);
+                series.ChartType = SeriesChartType.Line;
+                series.ChartArea = "ChartArea1";
+                series.Color = color;
+                chart.Series.Add(series);
+            }
+            series.Points.Clear();
             for (int i = 0; i < p.Count; i++)
-                series.Points.AddXY(p[i].X, p[i].Y);
-
-            chart.Series.Clear();
-            chart.Series.Add(series);
+                series.Points.AddXY(p[i].X, p[i].Y);          
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
             if (timeLayer < implicitMethod.getTimeLayersNum())
-            {
-                List<PointD> points = new List<PointD>();
-                points.AddRange(implicitMethod.getTimeLayer(timeLayer));
-                points.AddRange(explicitMethod.getTimeLayer(timeLayer));
-                points.AddRange(solution.getTimeLayer(timeLayer));
-
-                draw(points, timeLayer.ToString(), Color.Black);
+            { 
+                draw(implicitMethod.getTimeLayer(timeLayer), "implicitMethod", Color.Black);
+                draw(explicitMethod.getTimeLayer(timeLayer), "explicitMethod", Color.Blue);
+                draw(solution.getTimeLayer(timeLayer), "solution", Color.Green);
                 timeLayer++;
             }
         }

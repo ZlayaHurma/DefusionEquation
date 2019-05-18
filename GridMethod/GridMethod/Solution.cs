@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 using Extreme.Mathematics.Calculus;
 using Extreme.Mathematics;
 using Extreme.Mathematics.Algorithms;
-
+using Bytescout.Spreadsheet;
+using System.Diagnostics;
+using System.IO;
+using Bytescout.Spreadsheet.Structures;
 
 namespace GridMethod
 {
@@ -82,8 +85,8 @@ namespace GridMethod
 
         double getSolution(double x, double t) {
             double sum = 0;
-            int tol = 100;
-            for (int n = 1; n < tol; n++) {
+            int tolerance = 10000;
+            for (int n = 1; n < tolerance; n++) {
                 Func<double, double> integrand = delegate (double csi) {
                     return u0(csi) * Math.Sin((Math.PI * n) / l1 * csi);
                 };
@@ -97,6 +100,27 @@ namespace GridMethod
             simpson.ConvergenceCriterion = ConvergenceCriterion.WithinRelativeTolerance;
             return simpson.Integrate(f, a, b);
         }
+
+        void IDiffusionGrid.writeResult(Spreadsheet document)
+        {
+            // add new worksheet
+            Worksheet Sheet = document.Workbook.Worksheets.Add("Solution");
+
+            for (int i = 0; i < xn; i++)
+            {
+                Sheet[0, i + 1].Value = getOffset(i);
+            }
+
+            for (int j = 0; j < tn; j++)
+            {
+                Sheet[j + 1, 0].Value = getTime(j);
+            }
+
+            for (int j = 0; j < tn; j++)
+                for (int i = 0; i < xn; i++)
+                    Sheet[j + 1, i + 1].Value = grid[i, j];
+        }
+
 
         private double a;
         private Func2 f;
