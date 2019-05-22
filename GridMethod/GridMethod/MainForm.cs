@@ -14,10 +14,10 @@ using System.IO;
 
 namespace GridMethod
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
 
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
             setChart();
@@ -69,6 +69,8 @@ namespace GridMethod
                 tn,
                 xn
                 );
+            if (!explicitMethod.checkStability())
+                throw new Exception("Explicit method is unstable!");
             implicitMethod.calculate();
             explicitMethod.calculate();
             solution.calculate();
@@ -118,9 +120,9 @@ namespace GridMethod
             }
         }
 
-        public IDiffusionGrid implicitMethod;
-        public IDiffusionGrid explicitMethod;
-        public IDiffusionGrid solution;
+        public IDiffusionGridMethod implicitMethod;
+        public IDiffusionGridMethod explicitMethod;
+        public IDiffusionGridMethod solution;
         public int timeLayer = 0;
     }
 }

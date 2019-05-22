@@ -10,7 +10,7 @@ namespace GridMethod
 {
     public delegate double Func2(double x, double t);
 
-    public interface IDiffusionGrid
+    public interface IDiffusionGridMethod
     {
         void calculate();
 
@@ -19,5 +19,7 @@ namespace GridMethod
         List<PointD> getTimeLayer(int j);
 
         void writeResult(Spreadsheet document);
+
+        bool checkStability();
     }
 }

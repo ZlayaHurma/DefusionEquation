@@ -13,7 +13,7 @@ using Bytescout.Spreadsheet.Structures;
 
 namespace GridMethod
 {
-    class Solution : IDiffusionGrid
+    class Solution : IDiffusionGridMethod
     {
         public Solution(
             double a,
@@ -40,12 +40,12 @@ namespace GridMethod
             this.dx = (l1 - l0) / xn;
         }
 
-        int IDiffusionGrid.getTimeLayersNum()
+        int IDiffusionGridMethod.getTimeLayersNum()
         {
             return tn;
         }
 
-        void IDiffusionGrid.calculate()
+        void IDiffusionGridMethod.calculate()
         {
             double[,] grid = new double[xn, tn];
 
@@ -75,7 +75,7 @@ namespace GridMethod
             return 0 + i * dx;
         }
 
-        List<PointD> IDiffusionGrid.getTimeLayer(int j)
+        List<PointD> IDiffusionGridMethod.getTimeLayer(int j)
         {
             List<PointD> layer = new List<PointD>();
             for (int i = 0; i < xn; i++)
@@ -101,7 +101,7 @@ namespace GridMethod
             return simpson.Integrate(f, a, b);
         }
 
-        void IDiffusionGrid.writeResult(Spreadsheet document)
+        void IDiffusionGridMethod.writeResult(Spreadsheet document)
         {
             // add new worksheet
             Worksheet Sheet = document.Workbook.Worksheets.Add("Solution");
@@ -121,6 +121,10 @@ namespace GridMethod
                     Sheet[j + 1, i + 1].Value = grid[i, j];
         }
 
+        bool IDiffusionGridMethod.checkStability()
+        {
+            return true;
+        }
 
         private double a;
         private Func2 f;

@@ -10,7 +10,7 @@ using System.IO;
 
 namespace GridMethod
 {
-    class ImplicitGridMethod : IDiffusionGrid
+    class ImplicitGridMethod : IDiffusionGridMethod
     {
         public ImplicitGridMethod(
             double a,
@@ -37,12 +37,12 @@ namespace GridMethod
             this.dx = (l1 - l0) / xn;
         }
 
-        int IDiffusionGrid.getTimeLayersNum()
+        int IDiffusionGridMethod.getTimeLayersNum()
         {
             return tn;
         }
 
-        void IDiffusionGrid.calculate()
+        void IDiffusionGridMethod.calculate()
         {
             double[,] grid = new double[xn, tn];
 
@@ -83,7 +83,7 @@ namespace GridMethod
             this.grid = grid;
         }
 
-        void IDiffusionGrid.writeResult(Spreadsheet document)
+        void IDiffusionGridMethod.writeResult(Spreadsheet document)
         {
             // add new worksheet
             Worksheet Sheet = document.Workbook.Worksheets.Add("ImplicitGridMethodResult");
@@ -102,7 +102,7 @@ namespace GridMethod
                     Sheet[j+1, i+1].Value = grid[i, j];
         }
 
-        List<PointD> IDiffusionGrid.getTimeLayer(int j)
+        List<PointD> IDiffusionGridMethod.getTimeLayer(int j)
         {
             List<PointD> layer = new List<PointD>();
             for (int i = 0; i < xn; i++)
@@ -120,7 +120,10 @@ namespace GridMethod
             return 0 + i * dx;
         }
 
-       
+        bool IDiffusionGridMethod.checkStability()
+        {
+            return true;
+        }
 
         private double a;
         private Func2 f;
