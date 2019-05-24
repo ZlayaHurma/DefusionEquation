@@ -22,9 +22,9 @@ namespace GridMethod
             InitializeComponent();
             setChart();
             double a = 6;
-            Func2 f = delegate (double x, double y) { return 0; };
-            Func<double, double> f0 = delegate (double t) { return 0; };
-            Func<double, double> f1 = delegate (double t) { return 0; };
+            Func2 f = delegate (double x, double t) { return x+t; };
+            Func<double, double> f0 = delegate (double t) { return t; };
+            Func<double, double> f1 = delegate (double t) { return t*t*t; };
             double l = 5;
             Func<double, double> u0 = delegate (double x)
             {
@@ -33,8 +33,8 @@ namespace GridMethod
                 //return Math.Sin(x)/2;
             };
             double dt = 0.0001;
-            int tn = 200;
-            int xn = 50;
+            int tn = 100;
+            int xn = 10;
 
             implicitMethod = new ImplicitGridMethod(
                 a,
@@ -82,7 +82,7 @@ namespace GridMethod
             doc.SaveAs("Output.xls");
             doc.Close();
 
-            Process.Start("Output.xls");
+            //Process.Start("Output.xls");
 
             timer1.Start();
         }
