@@ -76,7 +76,7 @@ namespace GridMethod
                 for (int i = 0; i < xn - 2; i++)
                     v[i] = grid[i + 1, j] + dt * f(getOffset(i+1), getTime(j));
                 v[0] = grid[1, j] + dt * f(getOffset(1), getTime(j)) - A * f0(getTime(j + 1));
-                v[xn-3] = grid[xn-3, j] + dt * f(getOffset(xn-3), getTime(j)) - A * f1(getTime(j + 1));
+                v[xn-3] = grid[xn-2, j] + dt * f(getOffset(xn-2), getTime(j)) - A * f1(getTime(j + 1));
                 //!!! check correct matrix and vector
                 var vec = Vector.Create(v);
                 var solve = m.Solve(vec, false);

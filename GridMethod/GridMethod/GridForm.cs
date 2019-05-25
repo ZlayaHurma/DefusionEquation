@@ -14,28 +14,24 @@ using System.IO;
 
 namespace GridMethod
 {
-    public partial class MainForm : Form
+    public partial class GridForm : Form
     {
 
-        public MainForm()
+        public GridForm(
+            double a,
+            Func2 f,
+            Func<double, double> f0,
+            Func<double, double> f1,
+            double l,
+            Func<double, double> u0,
+            double dt,
+            int tn,
+            int xn
+            )
         {
             InitializeComponent();
             setChart();
-            double l = 5;
-            double a = 1;
-            Func2 f = delegate (double x, double t) { return x*Math.Cos(t) + 3*t*t*x*x*x+2*t-1*6*x*t*t*t; };
-            Func<double, double> f0 = delegate (double t) { return t*t; };
-            Func<double, double> f1 = delegate (double t) { return l*Math.Sin(t)+l*l*l*t*t*t+l+t*t; };
-            Func<double, double> u0 = delegate (double x)
-            {
-                //return -(x) * (x) + 1;
-                return x;
-                //return Math.Sin(x)/2;
-            };
-            double dt = 0.0001;
-            int tn = 5;
-            int xn = 5;
-
+           
             implicitMethod = new ImplicitGridMethod(
                 a,
                 f,
@@ -58,27 +54,20 @@ namespace GridMethod
                 tn,
                 xn
                 );
-            solution = new Solution(
-                a,
-                f,
-                f0,
-                f1,
-                l,
-                u0,
-                dt,
-                tn,
-                xn
-                );
-            if (!explicitMethod.checkStability())
-                throw new Exception("Explicit method is unstable!");
-            implicitMethod.calculate();
-            explicitMethod.calculate();
-            solution.calculate();
+            //if (!explicitMethod.checkStability())
+            //throw new Exception("Explicit method is unstable!");
+            try
+            {
+                implicitMethod.calculate();
+                explicitMethod.calculate();
+            }
+            catch (Exception ex) {
+                
+            }
 
             Spreadsheet doc = new Spreadsheet();
             implicitMethod.writeResult(doc);
             explicitMethod.writeResult(doc);
-            solution.writeResult(doc);
             doc.SaveAs("Output.xls");
             doc.Close();
 
@@ -91,11 +80,14 @@ namespace GridMethod
         {
             chart.Parent = this;
             chart.Dock = DockStyle.None;
+            chart.ChartAreas["ChartArea1"].AxisX.Title = "X";
+            chart.ChartAreas["ChartArea1"].AxisY.Title = "T";
         }
 
         public void draw(List<PointD> p, string name, Color color)
         {
             Series series = chart.Series.FindByName(name);
+            
             if (series == null)
             {
                 series = new Series(name);
@@ -112,17 +104,22 @@ namespace GridMethod
         private void timer1_Tick(object sender, EventArgs e)
         {
             if (timeLayer < implicitMethod.getTimeLayersNum())
-            { 
-                draw(implicitMethod.getTimeLayer(timeLayer), "implicitMethod", Color.Black);
-                draw(explicitMethod.getTimeLayer(timeLayer), "explicitMethod", Color.Blue);
-                draw(solution.getTimeLayer(timeLayer), "solution", Color.Green);
+            {
+                try
+                {
+                    draw(implicitMethod.getTimeLayer(timeLayer), "Implicit grid method", Color.Black);
+                    draw(explicitMethod.getTimeLayer(timeLayer), "Explicit grid method", Color.Blue);
+                }
+                catch (Exception ex)
+                {
+
+                }
                 timeLayer++;
             }
         }
 
         public IDiffusionGridMethod implicitMethod;
         public IDiffusionGridMethod explicitMethod;
-        public IDiffusionGridMethod solution;
         public int timeLayer = 0;
     }
 }

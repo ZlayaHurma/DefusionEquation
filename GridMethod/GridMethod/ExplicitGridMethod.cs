@@ -39,7 +39,7 @@ namespace GridMethod
             this.dt = dt;
             this.xn = xn;
             this.tn = tn;
-            this.dx = (l1 - l0) / xn;
+            this.dx = (l1 - l0) / (xn-1);
         }
 
         int IDiffusionGridMethod.getTimeLayersNum() {
