@@ -21,20 +21,20 @@ namespace GridMethod
         {
             InitializeComponent();
             setChart();
-            double a = 6;
-            Func2 f = delegate (double x, double t) { return x+t; };
-            Func<double, double> f0 = delegate (double t) { return t; };
-            Func<double, double> f1 = delegate (double t) { return t*t*t; };
             double l = 5;
+            double a = 1;
+            Func2 f = delegate (double x, double t) { return x*Math.Cos(t) + 3*t*t*x*x*x+2*t-1*6*x*t*t*t; };
+            Func<double, double> f0 = delegate (double t) { return t*t; };
+            Func<double, double> f1 = delegate (double t) { return l*Math.Sin(t)+l*l*l*t*t*t+l+t*t; };
             Func<double, double> u0 = delegate (double x)
             {
                 //return -(x) * (x) + 1;
-                return Math.Sin(Math.Pow(x, 2));
+                return x;
                 //return Math.Sin(x)/2;
             };
             double dt = 0.0001;
-            int tn = 100;
-            int xn = 10;
+            int tn = 5;
+            int xn = 5;
 
             implicitMethod = new ImplicitGridMethod(
                 a,
