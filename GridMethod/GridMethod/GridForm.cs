@@ -105,10 +105,7 @@ namespace GridMethod
                 if (!p[i].isValid())
                     Close();
                 series.Points.AddXY(p[i].X, p[i].Y);
-                
             }
-            
-
             chart.ChartAreas["ChartArea1"].AxisY.Maximum = chart.ChartAreas["ChartArea1"].AxisY.Maximum;
         }
 
