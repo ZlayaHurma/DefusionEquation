@@ -39,5 +39,14 @@ namespace GridMethod
         {
             return !(a == b);
         }
+        public bool isValid()
+        {
+            return !Double.IsInfinity(X) &&
+                   !Double.IsInfinity(Y) &&
+                   !Double.IsNaN(X) &&
+                   !Double.IsNaN(Y) &&
+                    Math.Abs(X) < 1e+16 &&
+                    Math.Abs(Y) < 1e+16;
+        }
     }
 }

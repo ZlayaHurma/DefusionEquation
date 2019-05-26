@@ -60,6 +60,9 @@ namespace GridMethod
             {
                 implicitMethod.calculate();
                 explicitMethod.calculate();
+                if (!explicitMethod.checkStability()) {
+                    MessageBox.Show("Explicit method is unstable on this data!");
+                }
             }
             catch (Exception ex) {
                 
@@ -98,7 +101,13 @@ namespace GridMethod
             }
             series.Points.Clear();
             for (int i = 0; i < p.Count; i++)
+            {
+                if (!p[i].isValid())
+                    Close();
                 series.Points.AddXY(p[i].X, p[i].Y);
+                
+            }
+            
 
             chart.ChartAreas["ChartArea1"].AxisY.Maximum = chart.ChartAreas["ChartArea1"].AxisY.Maximum;
         }

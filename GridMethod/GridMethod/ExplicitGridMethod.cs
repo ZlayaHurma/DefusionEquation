@@ -108,7 +108,7 @@ namespace GridMethod
 
         bool IDiffusionGridMethod.checkStability()
         {
-            return a*a*dt/(dx*dx) <= 0.5d;
+            return a*dt/(dx*dx) <= 0.5d;
         }
 
 

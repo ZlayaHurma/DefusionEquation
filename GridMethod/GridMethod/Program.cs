@@ -16,7 +16,13 @@ namespace GridMethod
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new StartDataForm());
+            try
+            {
+                Application.Run(new StartDataForm());
+            }
+            catch (Exception ex) {
+
+            }
         }
     }
 }
