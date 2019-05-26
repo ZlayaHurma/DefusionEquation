@@ -98,7 +98,9 @@ namespace GridMethod
             }
             series.Points.Clear();
             for (int i = 0; i < p.Count; i++)
-                series.Points.AddXY(p[i].X, p[i].Y);          
+                series.Points.AddXY(p[i].X, p[i].Y);
+
+            chart.ChartAreas["ChartArea1"].AxisY.Maximum = chart.ChartAreas["ChartArea1"].AxisY.Maximum;
         }
 
         private void timer1_Tick(object sender, EventArgs e)

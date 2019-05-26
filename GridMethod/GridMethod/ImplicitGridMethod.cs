@@ -56,8 +56,8 @@ namespace GridMethod
             }
 
             //fill matrix LES
-            double A = -(a * a * dt) / (dx * dx);
-            double B = (1 + (2 * a * a * dt) / (dx * dx));
+            double A = -(a * dt) / (dx * dx);
+            double B = (1 + (2 * a * dt) / (dx * dx));
             double C = A;
 
             var m = Matrix.Create(xn - 2, xn - 2, new double[(xn-2)*(xn-2)], MatrixElementOrder.RowMajor);
