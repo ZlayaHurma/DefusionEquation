@@ -233,6 +233,11 @@
             // 
             this.Nt_box.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Nt_box.Location = new System.Drawing.Point(93, 303);
+            this.Nt_box.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
             this.Nt_box.Minimum = new decimal(new int[] {
             5,
             0,
