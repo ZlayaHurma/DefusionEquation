@@ -37,7 +37,8 @@ namespace GridMethod
                 delegate (double x) { return u0.calculate(x); },
                 (double)dt_box.Value,
                 (int)Nt_box.Value,
-                (int)Nx_box.Value
+                (int)Nx_box.Value,
+                (double)delay_box.Value
                     );
             visualizationForm.Show();
         }

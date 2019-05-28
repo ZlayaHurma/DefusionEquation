@@ -48,12 +48,15 @@
             this.f0_box = new System.Windows.Forms.TextBox();
             this.f1_box = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.delay = new System.Windows.Forms.Label();
+            this.delay_box = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.l_box)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.a_box)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dt_box)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Nx_box)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Nt_box)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.delay_box)).BeginInit();
             this.SuspendLayout();
             // 
             // f_lable
@@ -305,12 +308,47 @@
             this.pictureBox1.TabIndex = 19;
             this.pictureBox1.TabStop = false;
             // 
+            // delay
+            // 
+            this.delay.AutoSize = true;
+            this.delay.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.delay.Location = new System.Drawing.Point(210, 229);
+            this.delay.Name = "delay";
+            this.delay.Size = new System.Drawing.Size(83, 24);
+            this.delay.TabIndex = 20;
+            this.delay.Text = "Delay = ";
+            // 
+            // delay_box
+            // 
+            this.delay_box.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.delay_box.Location = new System.Drawing.Point(290, 227);
+            this.delay_box.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.delay_box.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.delay_box.Name = "delay_box";
+            this.delay_box.Size = new System.Drawing.Size(100, 26);
+            this.delay_box.TabIndex = 21;
+            this.delay_box.Value = new decimal(new int[] {
+            200,
+            0,
+            0,
+            0});
+            // 
             // StartDataForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ClientSize = new System.Drawing.Size(413, 336);
+            this.Controls.Add(this.delay_box);
+            this.Controls.Add(this.delay);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.f1_box);
             this.Controls.Add(this.f0_box);
@@ -341,6 +379,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.Nx_box)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Nt_box)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.delay_box)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -368,5 +407,7 @@
         private System.Windows.Forms.TextBox f0_box;
         private System.Windows.Forms.TextBox f1_box;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label delay;
+        private System.Windows.Forms.NumericUpDown delay_box;
     }
 }

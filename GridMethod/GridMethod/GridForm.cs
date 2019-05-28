@@ -26,11 +26,13 @@ namespace GridMethod
             Func<double, double> u0,
             double dt,
             int tn,
-            int xn
+            int xn,
+            double delay
             )
         {
             InitializeComponent();
             setChart();
+            timer1.Interval = (int)delay;
            
             implicitMethod = new ImplicitGridMethod(
                 a,
